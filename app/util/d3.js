@@ -1,10 +1,7 @@
 import * as d3 from "d3";
 
 
-const width = window.innerWidth
-const height = window.innerHeight
-const [centerX, centerY] = [width / 2, height / 2]
-const data = [{ "name": "CIRCLE of Friends", radius: 100 }, { "name": "Biol 180", radius: 50 }, { "name": "Writing a Tragedy", radius: 30 }, { name: "Interviewing Middle Easterners", radius: 40 }, { "name": "Outdoors", radius: 70 }, { "name": "Cooking", radius: 50 }, { "name": "Church", radius: 90 }, { "name": "Miscellaneous", radius: 30 }]
+
 const tspans = []
 export const isBubbleChartGenerated = { value: false }
 
@@ -12,7 +9,7 @@ function getFontFromRadius(radius) {
     return 0.15 * radius * 2
 }
 
-function applyAdhesiveForces(simulation) {
+function applyAdhesiveForces(centerX, centerY, simulation) {
     simulation
         .force(
             "x", d3.forceX()
@@ -124,7 +121,7 @@ function wrap(texts) {
 
 
 
-export function createFullBubbleChart() {
+export function createFullBubbleChart(data, width, height) {
     const svg = d3.select("#circle-container")
         .append("svg")
         .attr("width", width)
@@ -197,7 +194,7 @@ export function createFullBubbleChart() {
         ) // Force that avoids circle overlapping
 
 
-    applyAdhesiveForces(simulation)
+    applyAdhesiveForces(width / 2, height / 2, simulation)
 
 
     // Apply these forces to the nodes and update their positions.
@@ -233,7 +230,7 @@ export function createFullBubbleChart() {
     }
     function dragended(event, d) {
 
-        applyAdhesiveForces(simulation)
+        applyAdhesiveForces(width / 2, height / 2, simulation)
             .alpha(1).restart();
 
         d.fx = null;
