@@ -1,0 +1,52 @@
+.centerer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.slide{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+h1{
+    max-width: fit-content;
+}
+
+
+.content {
+    display: flex ;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.lead{
+    width: 100%;
+}
+
+.left{
+    max-width: 25vw;
+}
+
+.mini-image{
+    max-width: 100%;
+}
+
+
+
+
+
+@media (max-width: 992px) {
+    .content {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .left{
+        max-width: 100%;
+    }
+}
