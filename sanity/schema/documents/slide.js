@@ -1,0 +1,41 @@
+export default {
+  name: 'slide',
+  title: 'Slide',
+  type: 'document',
+  fields: [
+    {
+      name: 'title',
+      title: 'Title',
+      style: 'h1',
+      type: 'string',
+    },
+    {
+      name: 'labeledImage',
+      title: 'Labeled Image',
+      type: 'labeledImage',
+    },
+    {
+      name: "content",
+      title: "Content",
+      type: "text",
+    },
+    {
+      name: "miniImage",
+      title: "Mini Image",
+      type: "labeledImage",
+    },
+    {
+      title: 'Slug',
+      name: 'slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        maxLength: 200, // will be ignored if slugify is set
+        slugify: input => input
+                             .toLowerCase()
+                             .replace(/\s+/g, '-')
+                             .slice(0, 200)
+      }
+    }
+  ],
+}
