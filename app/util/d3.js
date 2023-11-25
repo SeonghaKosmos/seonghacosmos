@@ -2,7 +2,7 @@ import * as d3 from "d3";
 
 
 
-const tspans = []
+let tspans = []
 export const isBubbleChartGenerated = { value: false }
 
 function getFontFromRadius(radius) {
@@ -45,12 +45,23 @@ function boldOnMouseHover(selection) {
     })
 }
 
+export function bindLinksToSpheres(selection, router) {
+    selection
+    .on("click", function (event, d) {
+        console.log(d)
+        router.push('/' + d.slug.current)
+    })
+}
+
 
 
 function wrap(texts) {
 
+    tspans = []
+
     // console.log('wrap')
     texts.each(function (txt) {
+
 
         const txtNode = d3.select(this)
         const name = String(txt['name'])
@@ -70,10 +81,7 @@ function wrap(texts) {
         var tspan = txtNode.text(null).append('tspan').attr('x', x).attr('y', y).attr('text-anchor', anchor);
 
 
-        const duplicateIndex = tspans.findIndex(({tspan: lineNum, parent }) => parent.name === txt.name && lineNum === 0)
-        if (duplicateIndex) {
-            delete tspans[duplicateIndex]
-        }
+   
         tspans.push({
             tspan,
             lineNum: 0,
@@ -124,6 +132,7 @@ function wrap(texts) {
 export function createFullBubbleChart(data, width, height) {
     const svg = d3.select("#circle-container")
         .append("svg")
+        .attr('id', 'sphere-svg')
         .attr("width", width)
         .attr("height", height)
 
@@ -139,7 +148,7 @@ export function createFullBubbleChart(data, width, height) {
         .append("g")
 
 
-    let node = gs.append("circle")
+    let circles = gs.append("circle")
         .attr("r", (d) => d.radius)
         .attr("cx", width / 2)
         .attr("cy", height / 2)
@@ -153,7 +162,7 @@ export function createFullBubbleChart(data, width, height) {
 
 
 
-    const txt = gs
+    const txts = gs
         .append("text")
         .text(d => d.name)
         .attr("x", d => d.x)
@@ -168,17 +177,13 @@ export function createFullBubbleChart(data, width, height) {
         .attr("text-anchor", "middle")
 
 
-    boldOnMouseHover(node)
-    boldOnMouseHover(txt)
-
-
 
     // d3.selectAll('text').call(dotme);
 
 
 
 
-    node.attr("cx", d => d.x)
+    circles.attr("cx", d => d.x)
         .attr("cy", d => d.y)
 
     const simulation = d3.forceSimulation()
@@ -194,14 +199,11 @@ export function createFullBubbleChart(data, width, height) {
         ) // Force that avoids circle overlapping
 
 
-    applyAdhesiveForces(width / 2, height / 2, simulation)
-
-
     // Apply these forces to the nodes and update their positions.
     // Once the force algorithm is happy with positions ('alpha' value is low enough), simulations will stop.
     simulation
         .on("tick", function (d) {
-            node
+            circles
                 .attr("cx", d => d.x)
                 .attr("cy", d => d.y)
 
@@ -239,9 +241,18 @@ export function createFullBubbleChart(data, width, height) {
 
 
 
+
+    boldOnMouseHover(circles)
+    boldOnMouseHover(txts)
     d3.selectAll('text').call(wrap);
+    applyAdhesiveForces(width / 2, height / 2, simulation)
 
 
+    return {
+        circles,
+        txts,
+        simulation,
+    };
 
 }
 

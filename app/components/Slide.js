@@ -5,22 +5,14 @@ import { getSlide } from "../util/sanity-requests"
 import LabeledImage from "./LabeledImage"
 import { PortableText } from "@portabletext/react";
 import './slide.css'
+import useLoadContent from "../hooks/useLoadContent";
 
 
 
 
 export default function Slide({ sphere }) {
 
-    const [slide, setSlide] = useState()
-
-    async function loadSlide() {
-        const slide = await getSlide(sphere)
-        setSlide(slide)
-    }
-
-    if (!slide) {
-        loadSlide()
-    }
+    const [slide, setSlide] = useLoadContent(getSlide, [sphere])
 
 
 
