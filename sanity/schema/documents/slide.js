@@ -25,6 +25,16 @@ export default {
       type: "labeledImage",
     },
     {
+      name: 'children',
+      title: 'Children',
+      type: 'array',
+      of: [
+        {
+          type: 'string',
+        }
+      ]
+    },
+    {
       title: 'Slug',
       name: 'slug',
       type: 'slug',
@@ -32,9 +42,9 @@ export default {
         source: 'title',
         maxLength: 200, // will be ignored if slugify is set
         slugify: input => input
-                             .toLowerCase()
-                             .replace(/\s+/g, '-')
-                             .slice(0, 200)
+          .toLowerCase()
+          .replace(/\s+/g, '-')
+          .slice(0, 200)
       }
     }
   ],

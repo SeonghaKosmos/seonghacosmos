@@ -32,6 +32,10 @@ h1{
     max-width: 25vw;
 }
 
+.left-without-image{
+    max-width: 80vw;
+}
+
 .mini-image{
     max-width: 100%;
 }

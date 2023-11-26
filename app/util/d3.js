@@ -48,7 +48,6 @@ function boldOnMouseHover(selection) {
 export function bindLinksToSpheres(selection, router) {
     selection
     .on("click", function (event, d) {
-        console.log(d)
         router.push('/' + d.slug.current)
     })
 }

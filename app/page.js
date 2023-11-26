@@ -17,11 +17,8 @@ export default function Home() {
 
 
   const router = useRouter()
-  // const redirect = (url) => {
-  //   router.push(url)
-  // }
 
-  const data = [{ "name": "CIRCLE of Friends", radius: 100 }, { "name": "Biol 180", radius: 50 }, { "name": "Writing a Tragedy", radius: 30 }, { name: "Interviewing Middle Easterners", radius: 40 }, { "name": "Outdoors", radius: 70 }, { "name": "Cooking", radius: 50 }, { "name": "Church", radius: 90 }, { "name": "Miscellaneous", radius: 30 }]
+
 
 
   const [spheres, setSpheres] = useLoadContent(getSpheres, [])
@@ -42,8 +39,6 @@ export default function Home() {
 
 
   return (
-    <main id='circle-container'>
-
-    </main>
+    <main id='circle-container'/>
   )
 }
