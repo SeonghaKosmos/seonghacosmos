@@ -1,19 +1,18 @@
-.centerer{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
 
-.slide{
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-}
 
 h1{
     max-width: fit-content;
+}
+
+.slide-title{
+    max-width: 80%;
+}
+
+
+.includes-navbar{
+    display: flex;
+    flex-direction: column;
+
 }
 
 
@@ -21,8 +20,20 @@ h1{
     display: flex ;
     flex-direction: row;
     align-items: flex-start;
+    min-height: 60vh;
     gap: 20px;
 }
+
+.slide-nav{
+    margin-top: 3rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 30%;
+}
+
 
 .lead{
     width: 100%;
@@ -48,6 +59,8 @@ h1{
     .content {
         display: flex;
         flex-direction: column-reverse;
+        justify-content: flex-end;
+        min-height: auto;
     }
 
     .left{

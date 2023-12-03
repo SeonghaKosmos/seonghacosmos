@@ -1,0 +1,31 @@
+.ArrowButton-button{
+    height: 50px;
+    font-size: 1.5rem;
+
+    border: 1px solid black;
+    border-radius: 0.25rem;
+
+}
+
+.ArrowButton-button:hover{
+    transform: scale(1.1);
+    transition: 0.2s ease-in-out;
+}
+
+.ArrowButton-icon{
+    background-image: url('/ArrowButton-image.svg');
+}
+
+.back-arrow-img{
+    max-height: 50%;
+}
+
+.arrow-button-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 100%;
+
+    padding: 0.5rem;
+}

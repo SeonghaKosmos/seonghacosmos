@@ -1,24 +1,60 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LabeledImage from "./LabeledImage"
-import { PortableText } from "@portabletext/react";
 import './slide.css'
-import useLoadContent from "../hooks/useLoadContent";
+import { useDispatch, useSelector } from "react-redux";
+import { appSliceActions } from "@/redux/store";
+import ArrowButton from "./ArrowButton";
+import { useRouter } from "next/navigation";
+import { getPathName } from "../util/sanity-requests";
 
 
 
 
-export default function Slide({ data }) {
+export default function Slide({ data, sphere }) {
 
+    const dispatch = useDispatch()
+    const titleRef = useRef()
+    const slidesInfo = useSelector((state) => state.app.slidesInfo)
+    const router = useRouter()
+
+    dispatch(appSliceActions.setSlide(data))
+
+    useEffect(() => {
+        const titleDims = titleRef.current.getBoundingClientRect()
+        dispatch(appSliceActions.setTitleDims({ width: titleDims.width, height: titleDims.height }))
+    })
+
+
+
+    function navToAdjacentSlide(distance) {
+        console.log('navToAdjacentSlide')
+        const { index } = data
+        const adjacentSlide = slidesInfo.find((slide) => slide.index === index + distance)
+        console.log(adjacentSlide)
+
+        if (adjacentSlide) {
+            router.push(getPathName(sphere, adjacentSlide.slug.current))
+        }
+
+    }
+    const navToNextSlide = () => {
+        navToAdjacentSlide(1)
+    }
+
+    const navToPrevSlide = () => {
+        navToAdjacentSlide(-1)
+    }
 
 
     return (
-        <div className="centerer">
-            <main className="slide">
-                {data.title &&
-                    <h1 className="display-1">{data.title}</h1>
-                }
+
+        <>
+            {data.title &&
+                <h1 className="display-1 slide-title" ref={titleRef}>{data.title}</h1>
+            }
+            <article className='includes-navbar'>
                 <article className='content' id="content">
                     <section className={data.labeledImage ? 'left' : 'left-without-image'}>
                         <p className="lead" id="lead">
@@ -36,9 +72,17 @@ export default function Slide({ data }) {
                     {data.labeledImage &&
                         <LabeledImage className='text-wrap' labeledImage={data.labeledImage} />
                     }
+
                 </article>
-            </main>
-        </div>
+                <nav className='slide-nav'>
+                    <ArrowButton direction='left' onclick={navToPrevSlide}>Previous</ArrowButton>
+                    <ArrowButton direction='right' className='next-button' onclick={navToNextSlide}>Next</ArrowButton>
+                </nav>
+            </article>
+
+        </>
+
+
 
     )
 }

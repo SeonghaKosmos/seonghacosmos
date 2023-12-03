@@ -46,6 +46,16 @@ export default {
           .replace(/\s+/g, '-')
           .slice(0, 200)
       }
-    }
+    },
+    {
+      name: "index",
+      title: "Index",
+      type: "number",
+    },
+    {
+      name: "depth",
+      title: "Depth",
+      type: "number",
+    },
   ],
 }

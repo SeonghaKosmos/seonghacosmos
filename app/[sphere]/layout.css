@@ -1,0 +1,45 @@
+.centerer{
+    position: relative;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.slide-container{
+    display: flex;
+    flex-direction: column;
+   
+}
+
+.sphere-content{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+
+@media (max-width: 992px) {
+    .sphere-content{
+        flex-direction: column-reverse;
+        height: min-content;
+    }
+    
+    .centerer{
+        position: static;
+        top: auto;
+        left: auto;
+    }
+
+    .toc-container-margin-controller{
+        margin-top: 0px !important;
+    }
+}
+
+

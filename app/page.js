@@ -1,10 +1,10 @@
 
 'use client';
 
-import {useEffect } from 'react';
+import { useEffect } from 'react';
 import { bindLinksToSpheres, createFullBubbleChart, createSimulation, createSvgWithCircles, isBubbleChartGenerated } from './util/d3';
 import { getSpheres } from './util/sanity-requests';
-import useLoadContent from './hooks/useLoadContent';
+import useLoadContent from '../hooks/useLoadContent';
 import { useRouter } from 'next/navigation';
 
 
@@ -39,6 +39,6 @@ export default function Home() {
 
 
   return (
-    <main id='circle-container'/>
+    <main id='circle-container' />
   )
 }

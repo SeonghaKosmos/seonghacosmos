@@ -17,6 +17,7 @@ export default function LabeledImage({ labeledImage: {image, imgDescription, img
         height={1080}
         loading="lazy"
         className= " md:max-w-prose rounded-lg labeled-image"
+        alt={imgDescription}
       />
       <div className="image-description">
         <small>{date.toLocaleDateString("en-US", dateOptions)}</small>

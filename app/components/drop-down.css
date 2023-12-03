@@ -1,0 +1,26 @@
+.drop-down{
+    padding: 5px;
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+    border-radius: 0.2rem;
+    visibility: hidden;
+}
+
+.drop-down:hover{
+    transform: scale(1.1);
+    transition: 0.2s ease-in-out;
+}
+
+.dropdown-bar-rect{
+    border-radius: 0.2rem;
+    rx: 5;
+    x: 5;
+}
+
+@media (max-width: 992px) {
+    .drop-down{
+        visibility: visible;
+    }
+    
+}

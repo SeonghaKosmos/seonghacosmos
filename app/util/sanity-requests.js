@@ -1,6 +1,14 @@
 import { client } from '@/sanity/lib/client'
 
 
+export function getPathName(sphere, slideSlug){
+    if (slideSlug === sphere) {
+        return `/${slideSlug}`
+    } else {
+        return `/${sphere}/${slideSlug}`
+    }
+}
+
 export async function getSlide(slug) {
     const query = `*[_type == "slide" && slug.current == $slug]`
     const slides = await client.fetch(query, { slug })
@@ -17,7 +25,6 @@ export async function getSphereSlide(sphereSlug) {
         slugs = slugs.map((slug) => slug.slug.current)
 
         if (!slugs.includes(sphereSlug)){
-            console.log('sphereSlug not found in sphereSlugs')
             returnVal = null
         }
     })
@@ -43,7 +50,18 @@ export function getSphereSlugs() {
 
 
 
-export async function getSphereSlides(slug, slides = []) {
+export async function getSphereSlides(slug, slides = [], returnFields = []) {
+
+
+    let returnFieldsString = ''
+
+    if (slides.length > 0){
+        returnFieldsString = '{'+returnFields.join(', ')+'}'
+    }
+
+    if (returnFieldsString == '{}'){
+        returnFieldsString = ''
+    }
 
     function addIfNotDuplicate(slideList) {
         for (const slide of slideList) {
@@ -53,7 +71,7 @@ export async function getSphereSlides(slug, slides = []) {
         }
     }
 
-    const querySingle = `*[_type == "slide" && slug.current == $slug]{slug, children}`
+    const querySingle = `*[_type == "slide" && slug.current == $slug]${returnFieldsString}`
     const result = await client.fetch(querySingle, { slug })
     const parentSlide = result[0]
 
@@ -67,12 +85,12 @@ export async function getSphereSlides(slug, slides = []) {
 
     if (children) {
         // console.log('children', children)
-        const query = `*[_type == "slide" && slug.current in $children]{slug, children}`
+        const query = `*[_type == "slide" && slug.current in $children]${returnFieldsString}`
         const childSlides = await client.fetch(query, { children })
 
 
         for (const child of childSlides) {
-            const dummy = await getSphereSlides(child.slug.current, slides)
+            const dummy = await getSphereSlides(child.slug.current, slides, returnFields)
         }
 
         addIfNotDuplicate(childSlides)
