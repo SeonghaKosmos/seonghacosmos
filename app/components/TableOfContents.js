@@ -74,7 +74,7 @@ export default function TableOfContents({ sphere }) {
 
     }
 
-    useEffect(() => highlightOnNav(), [pathName])
+    useEffect(() => highlightOnNav())
 
     useEffect(() => {
 
@@ -95,39 +95,45 @@ export default function TableOfContents({ sphere }) {
 
 
     return (
-        <div className={`toc-container toc-container-margin-controller ${TOCVisibilityClass}`} style={{ marginTop: `${marginTop}px` }}>
-            <h3 className="toc-title">Table of Contents</h3>
+        <>
+            {theSlides.length > 1 &&
+                <div className={`toc-container toc-container-margin-controller ${TOCVisibilityClass}`} style={{ marginTop: `${marginTop}px` }}>
+                    <h3 className="toc-title">Table of Contents</h3>
 
-            <div className="title-thumbnails-div" ref={titleThumbnailsDiv}>
-                {theSlides.map(({ slug, title, depth }) => {
+                    <div className="title-thumbnails-div" ref={titleThumbnailsDiv}>
+                        {theSlides.map(({ slug, title, depth }) => {
 
 
 
-                    const fontSize = `calc((1.325rem + .9vw)*${0.8 ** (depth)})`
-                    const indentation = `${depth * 2}rem`
-                    return (
+                            const fontSize = `calc((1.325rem + .9vw)*${0.8 ** (depth)})`
+                            const indentation = `${depth * 2}rem`
+                            return (
 
-                        <div
-                            className="toc-item"
-                            style={{
-                                fontSize: fontSize,
-                                marginLeft: indentation,
-                            }}
-                            key={slug.current}
-                        >
-                            <Link
-                                href={`${getPrefix(slug.current)}/${slug.current}`}
-                                key={slug.current}
-                            >
-                                {title}
-                            </Link>
+                                <div
+                                    className="toc-item"
+                                    style={{
+                                        fontSize: fontSize,
+                                        marginLeft: indentation,
+                                    }}
+                                    key={slug.current}
+                                >
+                                    <Link
+                                        href={`${getPrefix(slug.current)}/${slug.current}`}
+                                        key={slug.current}
+                                    >
+                                        {title}
+                                    </Link>
 
-                        </div>
+                                </div>
 
-                    )
-                })}
-            </div>
+                            )
+                        })}
+                    </div>
 
-        </div>
+                </div>
+            }
+        </>
+
+
     )
 }

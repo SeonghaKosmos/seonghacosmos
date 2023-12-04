@@ -8,6 +8,7 @@ import { appSliceActions } from "@/redux/store";
 import ArrowButton from "./ArrowButton";
 import { useRouter } from "next/navigation";
 import { getPathName } from "../util/sanity-requests";
+import { PortableText } from "@portabletext/react";
 
 
 
@@ -58,7 +59,7 @@ export default function Slide({ data, sphere }) {
                 <article className='content' id="content">
                     <section className={data.labeledImage ? 'left' : 'left-without-image'}>
                         <p className="lead" id="lead">
-                            {data.content}
+                            <PortableText value={data.content} components={[]}/>
                         </p>
 
                         {data.miniImage &&

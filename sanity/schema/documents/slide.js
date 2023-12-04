@@ -17,7 +17,11 @@ export default {
     {
       name: "content",
       title: "Content",
-      type: "text",
+      type: "array",
+      of: [
+        { type: "block" },
+        { type: "labeledImage" },
+      ],
     },
     {
       name: "miniImage",
@@ -59,3 +63,4 @@ export default {
     },
   ],
 }
+
