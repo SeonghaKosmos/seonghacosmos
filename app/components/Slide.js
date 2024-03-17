@@ -19,26 +19,34 @@ function Test({ value }) {
 //for left and right alternating image logic
 const leftOrRigtMap = new Map()
 
-export default function Slide({ data, sphere }) {
+//sets left or right in leftOrRigtMap if unset
+function setLeftOrRight(imgRef, isLeft){
+    if (leftOrRigtMap.get(imgRef) === undefined){
+        leftOrRigtMap.set(imgRef, isLeft)
+    }
+}
 
-    const portableTextComponents = {
-        types: {
-            labeledImage: ({ value }) => {
- 
-                const imgRef = value.image.asset._ref
-                const leftOrRigtValues = Array.from(leftOrRigtMap.values())
-                if (leftOrRigtValues.length === 0){
-                    leftOrRigtMap.set(imgRef, true)
-                } else {
-                    const isLeft = leftOrRigtValues[leftOrRigtValues.length - 1];
-                    leftOrRigtMap.set(imgRef, !isLeft);
-                }
-                console.log(leftOrRigtMap)
-                const classNomen = leftOrRigtMap.get(imgRef) ? "left-image" : "right-image"
-                return <LabeledImage labeledImage={value} containerClassName={`labeled-image-container ${classNomen}`} />
+const portableTextComponents = {
+    types: {
+        labeledImage: ({ value }) => {
+
+            const imgRef = value.image.asset._ref
+            const leftOrRigtValues = Array.from(leftOrRigtMap.values())
+            if (leftOrRigtValues.length === 0){
+                setLeftOrRight(imgRef, true)
+            } else {
+                const isLeft = leftOrRigtValues[leftOrRigtValues.length - 1];
+                setLeftOrRight(imgRef, !isLeft);
             }
+            console.log(leftOrRigtMap)
+            const classNomen = leftOrRigtMap.get(imgRef) ? "left-image" : "right-image"
+            return <LabeledImage labeledImage={value} containerClassName={`labeled-image-container ${classNomen}`} />
         }
     }
+}
+
+export default function Slide({ data, sphere }) {
+
 
 const dispatch = useDispatch()
 const titleRef = useRef()
