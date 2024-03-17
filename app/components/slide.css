@@ -57,20 +57,27 @@ h1{
     max-width: 80vw;
 }
 
-/* .footer-image{
-    display: flex;
-    min-width: 100vw;
-    justify-content: center;
-    align-items: center;
-} */
 
 .labeled-image-container{
-    float: right;
-    display: inline;
-    margin-left: 35px;
+    display: inline-flex;
+    flex-direction: column;
     width: 70%;
 }
 
+.left-image{
+    float: left;
+    margin-right: 35px;
+}
+
+.right-image{
+    float: right;
+    margin-left: 35px;
+    align-items: flex-end;
+}
+
+.footer-image{
+    margin-top: 35px;
+}
 
 
 

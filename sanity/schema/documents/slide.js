@@ -25,7 +25,7 @@ export default {
     },
     {
       name: "miniImage",
-      title: "Mini Image",
+      title: "Footer Image",
       type: "labeledImage",
     },
     {
