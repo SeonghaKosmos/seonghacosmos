@@ -13,7 +13,7 @@ export default function NavBar() {
 
 
     return (
-        <nav className='invisible-nav-bar'>
+        <nav className='invisible-nav-bar' id="slide-nav">
             <Dropdown />
             <ArrowButton direction={'left'} onclick={navToHome}>
                     Home

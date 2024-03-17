@@ -17,7 +17,7 @@
 
 .sphere-content{
     display: flex;
-    flex-direction: row;
+    flex-direction: column-reverse;
     align-items: flex-start;
     justify-content: center;
     gap: 1rem;
@@ -27,7 +27,6 @@
 
 @media (max-width: 992px) {
     .sphere-content{
-        flex-direction: column-reverse;
         height: min-content;
     }
     

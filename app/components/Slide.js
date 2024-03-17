@@ -38,7 +38,6 @@ const portableTextComponents = {
                 const isLeft = leftOrRigtValues[leftOrRigtValues.length - 1];
                 setLeftOrRight(imgRef, !isLeft);
             }
-            console.log(leftOrRigtMap)
             const classNomen = leftOrRigtMap.get(imgRef) ? "left-image" : "right-image"
             return <LabeledImage labeledImage={value} containerClassName={`labeled-image-container ${classNomen}`} />
         }

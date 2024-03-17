@@ -4,7 +4,7 @@
     height: 50px;
     border: 1px solid black;
     border-radius: 0.2rem;
-    visibility: hidden;
+    /* visibility: hidden; */
 }
 
 .drop-down:hover{
@@ -17,10 +17,10 @@
     rx: 5;
     x: 5;
 }
-
+/* 
 @media (max-width: 1150px) {
     .drop-down{
         visibility: visible;
     }
     
-}
+} */

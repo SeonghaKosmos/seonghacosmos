@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import './table-of-contents.css'
 import { appSliceActions } from "@/redux/store"
 import { usePathname } from "next/navigation"
+import { set } from "sanity"
 
 
 function getTocElementStyleClass(depth) {
@@ -29,11 +30,60 @@ export default function TableOfContents({ sphere }) {
 
     const pathName = usePathname()
     const theSlides = useSelector((state) => state.app.slidesInfo)
-    const titleDims = useSelector((state) => state.app.TitleDims)
     const isTOCVisible = useSelector((state) => state.app.isTOCVisible)
     const dispatch = useDispatch()
     const TOCVisibilityClass = isTOCVisible ? 'toc-visible' : 'toc-invisible'
-    const marginTop = titleDims ? titleDims.height : 0
+
+    //sets marginTop and top depending on screen size
+    const tocContainer = useRef();
+    function smartSetMarginTop(){
+        if (tocContainer.current){
+            const nav = document.getElementById('slide-nav')
+            const top = - 100
+            setTop(top)
+        }
+
+    }
+    
+    // window.addEventListener("resize", (event) => smartSetMarginTop());
+    let prevScrollY = window.scrollY
+    window.addEventListener("scroll", (event) => {
+        const deltaX = (window.scrollY - prevScrollY) / 1000
+        if (tocContainer){
+            let theTop = tocContainer.current.style.top
+            theTop = parseInt(theTop.replace('px', ''))
+            const nav = document.getElementById('slide-nav')
+            const navHeight = nav.getBoundingClientRect().height
+
+
+            console.log(navHeight)
+
+            tocContainer.current.style.top = 
+            `${theTop - deltaX}px`
+
+            // if (deltaX < 0){
+
+            //     if (theTop <= navHeight){
+
+            //     } else {
+            //         tocContainer.current.style.top = navHeight
+            //     }
+            // } 
+            // else {
+            //     const tocContainerHeight = tocContainer.current
+            //         .getBoundingClientRect().height
+            //     tocContainer.current.style.top = `${- tocContainerHeight}px`
+            // }
+
+            // console.log(tocContainer.current.style.top)
+        }
+        
+        prevScrollY = window.scrollY;
+    })
+
+    useEffect(() => {
+        smartSetMarginTop()
+    })
 
 
     const titleThumbnailsDiv = useRef()
@@ -95,7 +145,10 @@ export default function TableOfContents({ sphere }) {
     return (
         <>
             {theSlides.length > 1 &&
-                <div className={`toc-container toc-container-margin-controller ${TOCVisibilityClass}`} style={{ marginTop: `${marginTop}px` }}>
+                <div className={`toc-container 
+                    toc-container-margin-controller ${TOCVisibilityClass}`} 
+                    ref={tocContainer}
+                >
                     <h3 className="toc-title">Table of Contents</h3>
 
                     <div className="title-thumbnails-div" ref={titleThumbnailsDiv}>

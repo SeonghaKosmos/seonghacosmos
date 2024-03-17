@@ -27,8 +27,8 @@
 
 .toc-container{
     position: sticky;
-    top: 0px;
-    width: 20%;
+    /* bottom: 0px; */
+    width: 100%;
     min-width: min-content;
     background-color: rgb(247, 247, 247);
     padding: 2em;
@@ -36,15 +36,14 @@
 }
 
 .toc-visible{
-    /* position: fixed;
-    z-index: 99999; */
     visibility: visible;
     transition: height 1s ease-in-out;
 }
 
 .toc-invisible{
-    position: absolute;
     top: -1000px;
+    position: absolute;
+    height: 0px;
     visibility: hidden;
     transition: height 1s ease-in-out;
 }
@@ -53,19 +52,6 @@
     .toc-container{
         width: 100%;
         padding: 2rem;
-    }
-
-    .toc-invisible{
-        height: 0px;
-    }
-    
-}
-
-@media (min-width: 1150px) {
-    .toc-invisible{
-        visibility: visible;
-        top: 0px;
-        position: static;
     }
     
 }

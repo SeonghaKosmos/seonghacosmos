@@ -1,20 +1,13 @@
 .invisible-nav-bar{
-    position: absolute;
+    position: sticky;
+    top: 0px;
     z-index: 9999;
 
     display:flex;
-    flex-direction: row;
-    justify-content: flex-end;
+    flex-direction: row-reverse;
+    justify-content: space-between;
     width: 100%;
-    background-color: transparent;
+    background-color: inherit;
 
     padding: 2rem;
-}
-
-@media (max-width: 1150px) {
-    .invisible-nav-bar{
-        position: static;
-        justify-content: space-between;
-        flex-direction: row-reverse;
-    }
 }

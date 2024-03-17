@@ -27,6 +27,7 @@ h1{
 
 
 .content {
+    max-width: 80vw;
     display: flex ;
     align-items: flex-start;
     min-height: 60vh;
@@ -90,9 +91,16 @@ h1{
         display: flex;
         justify-content: flex-end;
         min-height: auto;
+        max-width: 100%;
     }
 
     .left{
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 1150px) {
+    .content {
         max-width: 100%;
     }
 }
