@@ -19,12 +19,12 @@ function Test({ value }) {
 
 export default function Slide({ data, sphere }) {
 
-    let isRight = true;
+    const isRight = useRef(true);
     const portableTextComponents = {
         types: {
             labeledImage: ({ value }) => {
-                const classNomen = isRight ? "right-image" : "left-image"
-                isRight = !isRight
+                const classNomen = isRight.current ? "right-image" : "left-image"
+                isRight.current = !isRight.current
                 return <LabeledImage labeledImage={value} containerClassName={`labeled-image-container ${classNomen}`} />
             }
         }
