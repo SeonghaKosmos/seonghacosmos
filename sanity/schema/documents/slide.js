@@ -61,6 +61,15 @@ export default {
       title: "Depth",
       type: "number",
     },
+    {
+      name: "test",
+      title: "Test",
+      type: "array",
+      of: [
+        { type: "block" },
+        { type: "image" },
+      ],
+    },
   ],
 }
 

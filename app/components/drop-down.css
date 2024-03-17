@@ -18,7 +18,7 @@
     x: 5;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1150px) {
     .drop-down{
         visibility: visible;
     }

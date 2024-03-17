@@ -11,7 +11,7 @@
     padding: 2rem;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1150px) {
     .invisible-nav-bar{
         position: static;
         justify-content: space-between;

@@ -10,11 +10,21 @@ import { useRouter } from "next/navigation";
 import { getPathName } from "../util/sanity-requests";
 import { PortableText } from "@portabletext/react";
 
-
+function Test({ value }) {
+    return (
+        <div>hello</div>
+    )
+}
 
 
 export default function Slide({ data, sphere }) {
 
+
+    const portableTextComponents = {
+        types: {
+            labeledImage: (({ value }) => <LabeledImage labeledImage={value} containerClassName={'labeled-image-container'} />)
+        },
+    }
     const dispatch = useDispatch()
     const titleRef = useRef()
     const slidesInfo = useSelector((state) => state.app.slidesInfo)
@@ -57,22 +67,26 @@ export default function Slide({ data, sphere }) {
             }
             <article className='includes-navbar'>
                 <article className='content' id="content">
-                    <section className={data.labeledImage ? 'left' : 'left-without-image'}>
+                    <div class="w-full">
+                        {data.labeledImage &&
+                            <LabeledImage className='text-wrap'
+                                labeledImage={data.labeledImage}
+                                containerClassName={'labeled-image-container'} />
+                        }
+
                         <p className="lead" id="lead">
-                            <PortableText value={data.content} components={[]}/>
+                            <PortableText value={data.content} components={portableTextComponents} onMissingComponent={false} />
                         </p>
 
                         {data.miniImage &&
                             <LabeledImage
-                                className='text-wrap mini-image'
+                                className='text-wrap footer-image'
                                 labeledImage={data.miniImage}
-                                containerClassName={'mini-image'} />
+                                containerClassName={'footer-image labeled-image-container'} />
                         }
 
-                    </section>
-                    {data.labeledImage &&
-                        <LabeledImage className='text-wrap' labeledImage={data.labeledImage} />
-                    }
+
+                    </div>
 
                 </article>
                 <nav className='slide-nav'>

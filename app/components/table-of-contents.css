@@ -29,6 +29,7 @@
     width: 20%;
     min-width: min-content;
     border: 1px solid black;
+    background-color: rgb(247, 247, 247);
     padding: 2em;
     border-radius: 2em;
 }
@@ -47,7 +48,7 @@
     transition: height 1s ease-in-out;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1150px) {
     .toc-container{
         width: 100%;
         padding: 2rem;
@@ -59,7 +60,7 @@
     
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1150px) {
     .toc-invisible{
         visibility: visible;
         top: 0px;
