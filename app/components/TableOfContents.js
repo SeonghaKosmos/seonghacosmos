@@ -85,7 +85,6 @@ export default function TableOfContents({ sphere }) {
             dispatch(appSliceActions.setSlidesInfo(slides))
         })
 
-
     }, [])
 
 
@@ -120,6 +119,7 @@ export default function TableOfContents({ sphere }) {
                                     <Link
                                         href={`${getPrefix(slug.current)}/${slug.current}`}
                                         key={slug.current}
+                                        className="toc-link"
                                     >
                                         {title}
                                     </Link>

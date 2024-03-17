@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 a{
-    color: black; /* blue colors for links too */
-    text-decoration: none; /* no underline */
+    color: red;
+    /* color: black;  */
+    /* text-decoration: none; */
 }
 

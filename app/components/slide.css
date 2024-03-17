@@ -1,4 +1,13 @@
 
+a {
+    color: black;
+    font-weight: 200;
+}
+
+a:hover{
+    font-weight: 400;
+}
+
 
 h1{
     max-width: fit-content;
