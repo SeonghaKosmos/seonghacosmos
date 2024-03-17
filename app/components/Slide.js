@@ -77,13 +77,15 @@ export default function Slide({ data, sphere }) {
                         <p className="lead" id="lead">
                             <PortableText value={data.content} components={portableTextComponents} onMissingComponent={false} />
                         </p>
+                        <div class="flex w-full justify-center items-center">
+                            {data.miniImage &&
+                                <LabeledImage
+                                    className='text-wrap footer-image'
+                                    labeledImage={data.miniImage}
+                                    containerClassName={'footer-image labeled-image-container'} />
+                            }
+                        </div>
 
-                        {data.miniImage &&
-                            <LabeledImage
-                                className='text-wrap footer-image'
-                                labeledImage={data.miniImage}
-                                containerClassName={'footer-image labeled-image-container'} />
-                        }
 
 
                     </div>

@@ -57,9 +57,12 @@ h1{
     max-width: 80vw;
 }
 
-.footer-image{
-    width: 100%;
-}
+/* .footer-image{
+    display: flex;
+    min-width: 100vw;
+    justify-content: center;
+    align-items: center;
+} */
 
 .labeled-image-container{
     float: right;
