@@ -64,7 +64,6 @@ export default function TableOfContents({ sphere }) {
             :
             document.querySelector(`a[href="/${sphere}/${slug}"]`)
 
-        console.log(title)
         if (title) {
             titlesForEach((a) => {
                 a.style.fontWeight = 'normal'

@@ -84,7 +84,6 @@ export async function getSphereSlides(slug, slides = [], returnFields = []) {
 
 
     if (children) {
-        // console.log('children', children)
         const query = `*[_type == "slide" && slug.current in $children]${returnFieldsString}`
         const childSlides = await client.fetch(query, { children })
 

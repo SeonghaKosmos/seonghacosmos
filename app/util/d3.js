@@ -58,7 +58,6 @@ function wrap(texts) {
 
     tspans = []
 
-    // console.log('wrap')
     texts.each(function (txt) {
 
 

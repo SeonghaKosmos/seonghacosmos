@@ -16,15 +16,24 @@ function Test({ value }) {
     )
 }
 
+//for left and right alternating image logic
+const leftOrRigtMap = new Map()
 
 export default function Slide({ data, sphere }) {
 
-    const isRight = useRef(true);
     const portableTextComponents = {
         types: {
             labeledImage: ({ value }) => {
-                const classNomen = isRight.current ? "right-image" : "left-image"
-                isRight.current = !isRight.current
+ 
+                const imgRef = value.image.asset._ref
+                const leftOrRigtValues = Array.from(leftOrRigtMap.values())
+                if (leftOrRigtValues.length === 0){
+                    leftOrRigtMap.set(imgRef, true)
+                } else {
+                    const isLeft = leftOrRigtValues[leftOrRigtValues.length - 1];
+                    leftOrRigtMap.set(imgRef, !isLeft);
+                }
+                const classNomen = leftOrRigtMap.get(imgRef) ? "left-image" : "right-image"
                 return <LabeledImage labeledImage={value} containerClassName={`labeled-image-container ${classNomen}`} />
             }
         }
@@ -45,10 +54,8 @@ useEffect(() => {
 
 
 function navToAdjacentSlide(distance) {
-    console.log('navToAdjacentSlide')
     const { index } = data
     const adjacentSlide = slidesInfo.find((slide) => slide.index === index + distance)
-    console.log(adjacentSlide)
 
     if (adjacentSlide) {
         router.push(getPathName(sphere, adjacentSlide.slug.current))
