@@ -33,6 +33,7 @@ export default function Slide({ data, sphere }) {
                     const isLeft = leftOrRigtValues[leftOrRigtValues.length - 1];
                     leftOrRigtMap.set(imgRef, !isLeft);
                 }
+                console.log(leftOrRigtMap)
                 const classNomen = leftOrRigtMap.get(imgRef) ? "left-image" : "right-image"
                 return <LabeledImage labeledImage={value} containerClassName={`labeled-image-container ${classNomen}`} />
             }
