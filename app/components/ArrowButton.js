@@ -3,7 +3,7 @@ import './arrow-button.css';
 
 
 
-export default function ArrowButton({direction, children, onclick}) {
+export default function ArrowButton({direction, children, onclick, styleClasses}) {
 
 
     let imgSrc
@@ -26,7 +26,7 @@ export default function ArrowButton({direction, children, onclick}) {
 
 
     return (
-        <button className="navbar-toggler ArrowButton-button" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"
+        <button className={`navbar-toggler ArrowButton-button ${styleClasses}`} type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"
             onClick={onclick}
         >
             <div className='arrow-button-content' style={{flexDirection}}>

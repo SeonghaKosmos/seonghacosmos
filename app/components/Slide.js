@@ -10,18 +10,14 @@ import { useRouter } from "next/navigation";
 import { getPathName } from "../util/sanity-requests";
 import { PortableText } from "@portabletext/react";
 
-function Test({ value }) {
-    return (
-        <div>hello</div>
-    )
-}
+
 
 //for left and right alternating image logic
 const leftOrRigtMap = new Map()
 
 //sets left or right in leftOrRigtMap if unset
-function setLeftOrRight(imgRef, isLeft){
-    if (leftOrRigtMap.get(imgRef) === undefined){
+function setLeftOrRight(imgRef, isLeft) {
+    if (leftOrRigtMap.get(imgRef) === undefined) {
         leftOrRigtMap.set(imgRef, isLeft)
     }
 }
@@ -32,7 +28,7 @@ const portableTextComponents = {
 
             const imgRef = value.image.asset._ref
             const leftOrRigtValues = Array.from(leftOrRigtMap.values())
-            if (leftOrRigtValues.length === 0){
+            if (leftOrRigtValues.length === 0) {
                 setLeftOrRight(imgRef, true)
             } else {
                 const isLeft = leftOrRigtValues[leftOrRigtValues.length - 1];
@@ -47,79 +43,122 @@ const portableTextComponents = {
 export default function Slide({ data, sphere }) {
 
 
-const dispatch = useDispatch()
-const titleRef = useRef()
-const slidesInfo = useSelector((state) => state.app.slidesInfo)
-const router = useRouter()
-
-dispatch(appSliceActions.setSlide(data))
-
-useEffect(() => {
-    const titleDims = titleRef.current.getBoundingClientRect()
-    dispatch(appSliceActions.setTitleDims({ width: titleDims.width, height: titleDims.height }))
-})
+    const dispatch = useDispatch()
+    const titleRef = useRef()
+    const slidesInfo = useSelector((state) => state.app.slidesInfo)
+    const router = useRouter()
+    const [hasPrevSlide, setHasPrevSlide] = useState(evalHasPrevSlide(data.index))
+    const [hasNextSlide, setHasNextSlide] = useState(evalHasNextSlide(data.index))
 
 
+    useEffect(() => {
+        setHasPrevSlide(evalHasPrevSlide(data.index))
+        setHasNextSlide(evalHasNextSlide(data.index))
+    }, [slidesInfo])
 
-function navToAdjacentSlide(distance) {
-    const { index } = data
-    const adjacentSlide = slidesInfo.find((slide) => slide.index === index + distance)
+    dispatch(appSliceActions.setSlide(data))
 
-    if (adjacentSlide) {
-        router.push(getPathName(sphere, adjacentSlide.slug.current))
+
+
+    function evalHasNextSlide(index){
+        return slidesInfo.find((slide) => 
+            slide.index === index + 1) ? true : false
     }
 
-}
-const navToNextSlide = () => {
-    navToAdjacentSlide(1)
-}
+    function evalHasPrevSlide(index){
+        return slidesInfo.find((slide) => 
+            slide.index === index - 1) ? true : false
+    }
 
-const navToPrevSlide = () => {
-    navToAdjacentSlide(-1)
-}
+    //navigates to slide that is distance away from current
+    //negative distance goes to previous slide
+    // sets hasNextSlide and hasPrevSlide by whether new slide 
+    //has prev or next
+    function navToAdjacentSlide(distance) {
+        const { index } = data
+        const newIndex = index + distance
+        const adjacentSlide = slidesInfo.find((slide) => slide.index === newIndex)
 
-
-return (
-
-    <>
-        {data.title &&
-            <h1 className="display-1 slide-title" ref={titleRef}>{data.title}</h1>
+        if (adjacentSlide) {
+            router.push(getPathName(sphere, adjacentSlide.slug.current))
         }
-        <article className='includes-navbar'>
-            <article className='content' id="content">
-                <div class="w-full">
-                    {data.labeledImage &&
-                        <LabeledImage className='text-wrap'
-                            labeledImage={data.labeledImage}
-                            containerClassName={'labeled-image-container right-image'} />
-                    }
 
-                    <p className="lead" id="lead">
-                        <PortableText value={data.content} components={portableTextComponents} onMissingComponent={false} />
-                    </p>
-                    <div class="flex w-full justify-center items-center">
-                        {data.miniImage &&
-                            <LabeledImage
-                                className='text-wrap footer-image'
-                                labeledImage={data.miniImage}
-                                containerClassName={'labeled-image-container footer-image'} />
+        if (evalHasNextSlide(newIndex)){
+            setHasNextSlide(true)
+        } else {
+            setHasNextSlide(false)
+        }
+
+        if (evalHasPrevSlide(newIndex)){
+            setHasPrevSlide(true)
+        } else {
+            setHasPrevSlide(false)
+        }
+
+    }
+
+
+    const navToNextSlide = () => {
+        !navToAdjacentSlide(1)
+    }
+
+    const navToPrevSlide = () => {
+        navToAdjacentSlide(-1)
+    }
+
+
+    return (
+
+        <>
+            <article style={{ width: "fit-content" }}>
+                {data.title &&
+                    <h1 className="display-1 slide-title" ref={titleRef}>{data.title}</h1>
+                }
+                <article className='content' id="content">
+
+                    <div class="w-full">
+                        {data.labeledImage &&
+                            <LabeledImage className='text-wrap'
+                                labeledImage={data.labeledImage}
+                                containerClassName={'labeled-image-container right-image'} />
                         }
+
+                        <p className="lead" id="lead">
+                            <PortableText value={data.content} components={portableTextComponents} onMissingComponent={false} />
+                        </p>
+                        <div class="flex w-full justify-center items-center">
+                            {data.miniImage &&
+                                <LabeledImage
+                                    className='text-wrap footer-image'
+                                    labeledImage={data.miniImage}
+                                    containerClassName={'labeled-image-container footer-image'} />
+                            }
+                        </div>
                     </div>
 
-
-
-                </div>
-
+                </article>
             </article>
+
             <nav className='slide-nav'>
-                <ArrowButton direction='left' onclick={navToPrevSlide}>Previous</ArrowButton>
-                <ArrowButton direction='right' className='next-button' onclick={navToNextSlide}>Next</ArrowButton>
+                <ArrowButton 
+                    direction='left' 
+                    onclick={navToPrevSlide}
+                    styleClasses={hasPrevSlide ? '' : 'hidden'}
+                >
+                    Previous
+                </ArrowButton>
+                <ArrowButton 
+                    direction='right' 
+                    styleClasses={hasNextSlide ? '' : 'hidden'}
+                    onclick={navToNextSlide}
+                >
+                    Next
+                </ArrowButton>
             </nav>
-        </article>
 
-    </>
-
+        </>
 
 
-)
+
+    )
 }

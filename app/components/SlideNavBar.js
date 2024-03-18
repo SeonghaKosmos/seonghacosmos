@@ -1,6 +1,6 @@
 import ArrowButton from './ArrowButton'
 import Dropdown from './Dropdown'
-import './nav-bar.css'
+import './slide-nav-bar.css'
 import { useRouter } from 'next/navigation'
 
 export default function NavBar() {

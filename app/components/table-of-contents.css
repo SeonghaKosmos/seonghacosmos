@@ -26,32 +26,41 @@
 }
 
 .toc-container{
+    z-index: 99;
     position: sticky;
-    /* bottom: 0px; */
-    width: 100%;
+    top: 0px;
+    width: 80%;
+    height: fit-content;
     min-width: min-content;
     background-color: rgb(247, 247, 247);
     padding: 2em;
     border-radius: 2em;
 }
 
-.toc-visible{
-    visibility: visible;
-    transition: height 1s ease-in-out;
+/* This fires as soon as the element enters the DOM */
+.toc-transition-enter{
+    opacity: 0;
 }
+/* This is where we can add the transition*/
+.toc-transition-enter-active{
+    opacity: 1;
+    transition: 0.5s ease-in-out;
+}
+/* This fires as soon as the this.state.showList is false */
+.toc-transition-exit{
+    opacity: 1;
+}
+/* fires as element leaves the DOM*/
+.toc-transition-exit-active{
+    opacity: 0;
+    transition: 0.5s ease-in-out;
 
-.toc-invisible{
-    top: -1000px;
-    position: absolute;
-    height: 0px;
-    visibility: hidden;
-    transition: height 1s ease-in-out;
 }
 
 @media (max-width: 1150px) {
     .toc-container{
         width: 100%;
-        padding: 2rem;
+        margin: 2rem;
     }
     
 }

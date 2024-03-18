@@ -5,26 +5,9 @@ import { useDispatch, useSelector } from "react-redux"
 import './table-of-contents.css'
 import { appSliceActions } from "@/redux/store"
 import { usePathname } from "next/navigation"
-import { set } from "sanity"
+import { CSSTransition } from "react-transition-group"
 
 
-function getTocElementStyleClass(depth) {
-    switch (depth) {
-        case 0:
-            return 'h2 sphere-title'
-        case 1:
-            return 'h3 toc-h3'
-        case 2:
-            return 'h4 toc-h4'
-        case 3:
-            return 'h5 toc-h5'
-        case 4:
-            return 'h6 toc-h6'
-        default:
-            return 'h6 toc-h6'
-    }
-
-}
 
 export default function TableOfContents({ sphere }) {
 
@@ -32,57 +15,63 @@ export default function TableOfContents({ sphere }) {
     const theSlides = useSelector((state) => state.app.slidesInfo)
     const isTOCVisible = useSelector((state) => state.app.isTOCVisible)
     const dispatch = useDispatch()
-    const TOCVisibilityClass = isTOCVisible ? 'toc-visible' : 'toc-invisible'
+
+
 
     //sets marginTop and top depending on screen size
     const tocContainer = useRef();
-    function smartSetMarginTop(){
-        if (tocContainer.current){
-            const nav = document.getElementById('slide-nav')
-            const top = - 100
-            setTop(top)
-        }
 
-    }
+    //toc right below nav when it first appears
+    //adjust size of toc window so it is scrollable
+    useEffect(() => {
+        if (isTOCVisible && tocContainer.current) {
+            const nav = document.getElementById('slide-nav')
+            const navHeight = nav.getBoundingClientRect().height
+            tocContainer.current.style.top = `${navHeight}px`
+
+            const height = document.body.getBoundingClientRect().height
+            document.getElementById('toc-window').style.height = `${height}px`
+        }
+    }, [isTOCVisible, pathName])
     
-    // window.addEventListener("resize", (event) => smartSetMarginTop());
+
     let prevScrollY = window.scrollY
     window.addEventListener("scroll", (event) => {
-        const deltaX = (window.scrollY - prevScrollY) / 1000
-        if (tocContainer){
+        const deltaX = (window.scrollY - prevScrollY) / 5
+        if (tocContainer.current) {
             let theTop = tocContainer.current.style.top
-            theTop = parseInt(theTop.replace('px', ''))
+            theTop = parseFloat(theTop.replace('px', ''))
             const nav = document.getElementById('slide-nav')
             const navHeight = nav.getBoundingClientRect().height
 
 
-            console.log(navHeight)
 
-            tocContainer.current.style.top = 
-            `${theTop - deltaX}px`
 
-            // if (deltaX < 0){
 
-            //     if (theTop <= navHeight){
+            if (deltaX < 0) {
 
-            //     } else {
-            //         tocContainer.current.style.top = navHeight
-            //     }
-            // } 
-            // else {
-            //     const tocContainerHeight = tocContainer.current
-            //         .getBoundingClientRect().height
-            //     tocContainer.current.style.top = `${- tocContainerHeight}px`
-            // }
+                if (theTop <= navHeight) {
+                    tocContainer.current.style.top =
+                        `${theTop - deltaX}px`
+                } else {
+                    tocContainer.current.style.top = `${navHeight}px`
+                }
+            }
+            else {
+                const tocContainerHeight = tocContainer.current
+                    .getBoundingClientRect().height
+                if (theTop >= - tocContainerHeight) {
+                    tocContainer.current.style.top =
+                        `${theTop - deltaX}px`
+                } else {
+                    tocContainer.current.style.top = `${- tocContainerHeight}px`
+                }
 
-            // console.log(tocContainer.current.style.top)
+            }
+
         }
-        
-        prevScrollY = window.scrollY;
-    })
 
-    useEffect(() => {
-        smartSetMarginTop()
+        prevScrollY = window.scrollY;
     })
 
 
@@ -145,44 +134,54 @@ export default function TableOfContents({ sphere }) {
     return (
         <>
             {theSlides.length > 1 &&
-                <div className={`toc-container 
-                    toc-container-margin-controller ${TOCVisibilityClass}`} 
-                    ref={tocContainer}
+                <CSSTransition
+                    in={isTOCVisible}
+                    timeout={500}
+                    classNames={'toc-transition'}
+                    unmountOnExit
+                    mountOnEnter                    
                 >
-                    <h3 className="toc-title">Table of Contents</h3>
+                    <div className={`toc-container 
+                    toc-container-margin-controller`}
+                        style={{ top: '0px' }}
+                        ref={tocContainer}
+                    >
+                        <h3 className="toc-title">Table of Contents</h3>
 
-                    <div className="title-thumbnails-div" ref={titleThumbnailsDiv}>
-                        {theSlides.map(({ slug, title, depth }) => {
+                        <div className="title-thumbnails-div" ref={titleThumbnailsDiv}>
+                            {theSlides.map(({ slug, title, depth }) => {
 
 
 
-                            const fontSize = `calc((1.325rem + .9vw)*${0.8 ** (depth)})`
-                            const indentation = `${depth * 2}rem`
-                            return (
+                                const fontSize = `calc((1.325rem + .9vw)*${0.8 ** (depth)})`
+                                const indentation = `${depth * 2}rem`
+                                return (
 
-                                <div
-                                    className="toc-item"
-                                    style={{
-                                        fontSize: fontSize,
-                                        marginLeft: indentation,
-                                    }}
-                                    key={slug.current}
-                                >
-                                    <Link
-                                        href={`${getPrefix(slug.current)}/${slug.current}`}
+                                    <div
+                                        className="toc-item"
+                                        style={{
+                                            fontSize: fontSize,
+                                            marginLeft: indentation,
+                                        }}
                                         key={slug.current}
-                                        className="toc-link"
                                     >
-                                        {title}
-                                    </Link>
+                                        <Link
+                                            href={`${getPrefix(slug.current)}/${slug.current}`}
+                                            key={slug.current}
+                                            className="toc-link"
+                                        >
+                                            {title}
+                                        </Link>
 
-                                </div>
+                                    </div>
 
-                            )
-                        })}
+                                )
+                            })}
+                        </div>
+
                     </div>
+                </CSSTransition>
 
-                </div>
             }
         </>
 
